@@ -5,7 +5,6 @@ A web application developed with educational purpose. It is a system where you c
 
 Obs:
 <br/>
-
 There are binaries inside the folder "infopedia-binaries", execute them and access the application through http://localhost:3000. The binaries were compiled using Java 13. <br />
 You can find the admin credentials inside "infopedia-user" service folder.
 <br/><br/>
