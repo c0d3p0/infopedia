@@ -1,0 +1,60 @@
+.ArticleForm > p
+{
+  margin-bottom: 2em;
+}
+
+.ArticleForm > form
+{
+  margin-top: 0.63em;
+}
+
+.ArticleForm > form > div
+{
+  margin-bottom: 0.38em;
+}
+
+.ArticleForm > form > div:not(:nth-child(2)) > label
+{
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.ArticleForm > form > div > label
+{
+  min-width: 9.38em;
+}
+
+.ArticleForm > form > div > select
+{
+  width: 100%;
+}
+
+.ArticleForm > form > div > textarea
+{
+  min-height: 20em;
+  max-height: 40em;
+}
+
+.ArticleForm .SuccessMessage,
+.ArticleForm .ErrorMessage
+{
+  margin-top: 1.25em;
+  margin-bottom: 0.38em;
+  text-align: center;
+}
+
+.ArticleFormButtonArea
+{
+  margin-top: 1.25em;
+}
+
+.ArticleFormButtonArea > button:first-child
+{
+  margin-left: auto;
+  margin-right: 0.63em;
+}
+
+.ArticleForm > form ~ div
+{
+  margin-top: 1.88em;
+}

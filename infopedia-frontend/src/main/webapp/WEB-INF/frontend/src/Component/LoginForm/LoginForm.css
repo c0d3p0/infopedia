@@ -1,0 +1,20 @@
+.LoginForm 
+{
+  padding: 0.63em;
+}
+
+.LoginForm .ErrorMessage
+{
+  margin-bottom: 0.63em;
+  text-align: center;
+}
+
+.LoginForm > form > input
+{
+  margin-bottom: 0.38em;
+}
+
+.LoginForm > form > button
+{
+  margin-top: 0.63em;
+}

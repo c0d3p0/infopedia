@@ -1,0 +1,48 @@
+.Header
+{
+  background-color: #202020;
+
+  height: 10em;
+
+  padding-top: 0.75em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.Header > div
+{
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: auto;
+}
+
+.Header > div > div
+{
+  width: 30%;
+}
+
+.Header > div > div:first-child > img
+{
+  min-width: 3.25em;
+  max-width: 3.25em;
+  min-height: 3.25em;
+  max-height: 3.25em;
+
+  background-color: #dddddd;
+
+  /* margin-top: auto;
+  margin-bottom: auto; */
+  border-radius: 0.25em;
+}
+
+.Header > div > div:first-child  > h1
+{
+  color: #ffffff;
+
+  font-size: 2.5em;
+
+  margin-left: 0.5em;
+  margin-top: auto;
+  margin-bottom: auto;
+}

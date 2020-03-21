@@ -1,0 +1,87 @@
+.Searchbar
+{
+  width: 30%;
+  height: 2.5em;
+  
+  border-radius: 0.25em;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+  background-color: white;
+
+  justify-content: space-between;
+}
+
+.Searchbar > form
+{
+  width: 100%;
+}
+
+.Searchbar > form > input
+{
+  border: 0;
+  font-size: 1em;
+
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 0.88em;
+  margin-left: 0.88em;
+}
+
+.Searchbar > form > button,
+.Searchbar > form > select
+{
+  background: white;
+  font-size: 1em;
+
+  height: 100%;
+
+  border-color: #b0b0b0;
+  border-style: solid;
+  border-width: 1px;
+  border-right: 0px;
+  border-top: 0px;
+  border-bottom: 0px;
+}
+
+.Searchbar > form > button
+{
+  border-top-right-radius: 0.25em;
+  border-bottom-right-radius: 0.25em;
+}
+
+.Searchbar > form > select
+{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  padding-left: 0.38em;
+  padding-right: 0.38em;
+
+  margin-left: auto;
+  text-align-last: center;
+}
+
+.Searchbar > form > input:focus,
+.Searchbar > form > button:focus,
+.Searchbar > form > select:focus
+{
+  outline: none;
+  box-shadow: none;
+}
+
+.Searchbar > form > button:hover,
+.Searchbar > form > select:hover
+{
+  cursor: pointer;
+  border-color: #808080;
+  background: #dfdfdf;
+}
+
+.Searchbar > form > button > img
+{
+  width: 1.5em;
+  height: 1.5em;
+
+  margin-top: auto;
+  margin-bottom: auto;
+}

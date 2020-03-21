@@ -1,0 +1,17 @@
+.MainArea
+{
+  margin-top: -2em;
+  margin-bottom: 0.8em;
+
+  justify-content: space-between;
+}
+
+.MainArea > :first-child
+{
+  margin-left: 1em;
+}
+
+.MainArea > :last-child
+{
+  margin-right: 1em;
+}

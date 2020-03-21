@@ -1,0 +1,27 @@
+.SignUpForm
+{
+  padding: 0.63em;
+}
+
+.SignUpForm .ErrorMessage
+{
+  margin-bottom: 0.88em;
+  text-align: center;
+}
+
+.SignUpForm > form > input,
+.SignUpForm > form > div > input,
+.SignUpForm > form > select
+{
+  margin-bottom: 0.38em;
+}
+
+.SignUpForm > form > div
+{
+  margin-top: 1.25em;
+}
+
+.SignUpForm > form > button
+{
+  margin-top: 1.25em;
+}

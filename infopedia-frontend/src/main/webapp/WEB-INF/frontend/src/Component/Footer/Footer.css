@@ -1,0 +1,23 @@
+.Footer
+{
+  position: absolute;
+  height: 10em;
+
+  background-color: #202020;
+  color: #FFFFFF;
+
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -999;
+}
+
+.Footer > label
+{
+  font-size: 1.2em;
+  
+  margin-top: auto;
+  margin-left: auto;
+  margin-bottom: 1em;
+  margin-right: 1em;
+}
