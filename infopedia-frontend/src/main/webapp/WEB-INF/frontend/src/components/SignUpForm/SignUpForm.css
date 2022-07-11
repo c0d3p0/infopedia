@@ -1,0 +1,61 @@
+.sign-up-form {
+  flex: 1 1 auto;
+
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.sign-up-form .box-dark {
+  width: 20rem;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sign-up-form .box-dark:first-child {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.sign-up-form .box-dark h3 {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.sign-up-form .box-dark img {
+  max-height: 3rem;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sign-up-form .box-dark form {
+  display: flex;
+  flex-direction: column;
+}
+
+.sign-up-form .box-dark form label {
+  font-size: 0.8em;
+  margin-bottom: 0.5rem;
+}
+
+.sign-up-form .box-dark form input,
+.sign-up-form .box-dark form select {
+  margin-bottom: 1rem;
+}
+
+.sign-up-form .box-dark form button {
+  font-size: 1em;
+  margin-top: 1rem;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+
+
+

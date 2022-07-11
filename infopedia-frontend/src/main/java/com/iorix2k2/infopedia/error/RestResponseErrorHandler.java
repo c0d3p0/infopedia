@@ -12,13 +12,15 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 
 public class RestResponseErrorHandler extends DefaultResponseErrorHandler
-{
+{	
+	@Override
+	public void handleError(ClientHttpResponse response) throws IOException
+	{
+		var on = objectMapper.readValue(response.getBody(), ObjectNode.class);
+		var statusCode = response.getStatusCode();
+		var message = on.get("message").asText();
+		throw new ResponseStatusException(statusCode, message);
+	}
+
 	private ObjectMapper objectMapper = new ObjectMapper();
-	
-  @Override
-  public void handleError(ClientHttpResponse response) throws IOException
-  {
-  	ObjectNode on = objectMapper.readValue(response.getBody(), ObjectNode.class);
-  	throw new ResponseStatusException(response.getStatusCode(), on.get("message").asText());
-  }
 }

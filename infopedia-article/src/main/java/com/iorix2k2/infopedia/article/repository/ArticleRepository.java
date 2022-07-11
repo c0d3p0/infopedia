@@ -17,6 +17,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long>
 	List<Article> findByUserId(Long userId);
 	Optional<Article> findByIdAndUserId(Long id, Long userId);
 	List<Article> findByTitleContainingIgnoreCase(String title);
+	List<Article> findByContentContainingIgnoreCase(String content);
+	List<Article> findAllByIdIn(Long[] ids);
 	
 	@Query(value="SELECT * FROM article ORDER BY RANDOM() FETCH FIRST :amount ROWS ONLY", nativeQuery=true)
 	List<Article> findTopAmountOrderByRandom(Long amount);

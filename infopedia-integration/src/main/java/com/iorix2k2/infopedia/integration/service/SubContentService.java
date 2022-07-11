@@ -6,176 +6,104 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
+
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
 import com.iorix2k2.infopedia.integration.model.Catalogue;
 import com.iorix2k2.infopedia.integration.model.SubContent;
 import com.iorix2k2.infopedia.integration.model.SubContentType;
 import com.iorix2k2.infopedia.util.HttpUtil;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 
 @Service
 public class SubContentService
 {
-	@HystrixCommand(fallbackMethod = "getByArticleIdOnError",
-			commandProperties = {
-					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "8000"),
-					@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "40"),
-					@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
-					@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000")
-			},
-			threadPoolKey = "subContentGetByArticleId",
-			threadPoolProperties = {@HystrixProperty(name = "coreSize", value = "100")})
-	public List<SubContent> getByArticleId(Long articleId)
+	@CircuitBreaker(name = SUBCONTENT_SERVICE_CB, fallbackMethod = "getSingleOnError")
+	public SubContent getById(Long id)
 	{
-		return restTemplate.exchange(byArticleIdURL, HttpMethod.GET, null,
-				new ParameterizedTypeReference<Catalogue<SubContent>>(){}, articleId).getBody().getList();
-	}
-	
-	@HystrixCommand(fallbackMethod = "",
-			commandProperties = {
-					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "8000"),
-					@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "40"),
-					@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
-					@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000")
-			},
-			threadPoolKey = "subContentAddFromUser",
-			threadPoolProperties = {@HystrixProperty(name = "coreSize", value = "100")})
-	public SubContent addFromUser(SubContent subContent, Long userId)
-	{
-		subContent.setUserId(userId);
-		HttpEntity<SubContent> he = createPayloadWithUserPermissionCheck(
-				subContent, userId, subContent.getArticleId());
-		return restTemplate.exchange(subContentURL, HttpMethod.POST, he,
-				SubContent.class).getBody();
+		return restTemplate.exchange(BY_ID_URL, HttpMethod.GET, null,
+				SubContent.class, id).getBody();
 	}
 
-	@HystrixCommand(fallbackMethod = "",
-			commandProperties = {
-					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "8000"),
-					@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "40"),
-					@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
-					@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000")
-			},
-			threadPoolKey = "subContentUpdateFromUser",
-			threadPoolProperties = {@HystrixProperty(name = "coreSize", value = "100")})
-	public SubContent updateFromUser(SubContent subContent, Long userId)
+	@CircuitBreaker(name = SUBCONTENT_SERVICE_CB, fallbackMethod = "getMultipleOnError")
+	public List<SubContent> getByArticleId(Long articleId)
 	{
-		subContent.setUserId(null);
-		subContent.setArticleId(null);
-		SubContent subContentFound = getById(subContent.getId());
-		HttpEntity<SubContent> he = createPayloadWithUserPermissionCheck(
-				subContent, userId, subContentFound.getArticleId());
-		return restTemplate.exchange(byIdURL, HttpMethod.PATCH, he,
-				SubContent.class, subContent.getId()).getBody();
+		var ptr = new ParameterizedTypeReference<Catalogue<SubContent>>(){};
+		return restTemplate.exchange(BY_ARTICLE_ID_URL,
+				HttpMethod.GET, null, ptr, articleId).getBody().getList();
 	}
-	
-	@HystrixCommand(fallbackMethod = "",
-			commandProperties = {
-					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "8000"),
-					@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "40"),
-					@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
-					@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000")
-			},
-			threadPoolKey = "subContentRemoveFromUser",
-			threadPoolProperties = {@HystrixProperty(name = "coreSize", value = "100")})
-	public SubContent removeFromUser(Long id, Long userId)
+
+	@CircuitBreaker(name = SUBCONTENT_SERVICE_CB, fallbackMethod = "getMultipleOnError")
+	public List<SubContent> getByContentWith(String content)
 	{
-		SubContent subContentFound = getById(id);
-		HttpEntity<SubContent> he = createPayloadWithUserPermissionCheck(
-				null, userId, subContentFound.getArticleId());
-		return restTemplate.exchange(byIdURL, HttpMethod.DELETE, he,
-				SubContent.class, id).getBody();
+		var ptr = new ParameterizedTypeReference<Catalogue<SubContent>>(){};
+		return restTemplate.exchange(BY_CONTENT_WITH_URL,
+				HttpMethod.GET, null, ptr, content).getBody().getList();
 	}
-	
-	@HystrixCommand(fallbackMethod = "",
-			commandProperties = {
-					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "8000"),
-					@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "40"),
-					@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
-					@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000")
-			},
-			threadPoolKey = "subContentRemoveByArticleId",
-			threadPoolProperties = {@HystrixProperty(name = "coreSize", value = "100")})
-	public List<SubContent> removeByArticleId(Long articleId, Long userId)
-	{
-		HttpEntity<SubContent> he = createPayloadWithUserPermissionCheck(
-				null, userId, articleId);
-		return restTemplate.exchange(byArticleIdURL, HttpMethod.DELETE, he,
-				new ParameterizedTypeReference<Catalogue<SubContent>>(){}, articleId).
-				getBody().getList();
-	}
-	
-	@HystrixCommand(fallbackMethod = "",
-			commandProperties = {
-					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "8000"),
-					@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "40"),
-					@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
-					@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000")
-			},
-			threadPoolKey = "subContentRemoveByUserId",
-			threadPoolProperties = {@HystrixProperty(name = "coreSize", value = "100")})
+
+	@CircuitBreaker(name = SUBCONTENT_SERVICE_CB, fallbackMethod = "removeOnError")
 	public List<SubContent> removeByUserId(Long userId)
 	{
-		HttpHeaders hh = HttpUtil.createDefaultHeaders();
-		hh.setBasicAuth("system-admin", "infopedia_admin");
-		HttpEntity<SubContent> he = new HttpEntity<>(null, hh);
-		return restTemplate.exchange(byUserIdURL, HttpMethod.DELETE, he,
-				new ParameterizedTypeReference<Catalogue<SubContent>>(){}, userId).
-				getBody().getList();
+		var hh = HttpUtil.createDefaultHeaders();
+		hh.setBasicAuth("system", "infopedia_system_1234");
+		var he = new HttpEntity<SubContent>(null, hh);
+		var ptr = new ParameterizedTypeReference<Catalogue<SubContent>>(){};
+		return restTemplate.exchange(BY_USER_ID_URL,
+				HttpMethod.DELETE, he, ptr, userId).getBody().getList();
 	}
-	
-	private SubContent getById(Long id)
-	{
-		return restTemplate.exchange(byIdURL, HttpMethod.GET, null,
-				SubContent.class, id).getBody();
-	}
-	
-	private HttpEntity<SubContent> createPayloadWithUserPermissionCheck(SubContent body,
-			Long userId, Long articleId)
-	{
-		articleService.getByIdAndUserId(articleId != null ? articleId : 0,
-				userId != null ? userId : 0);
-		HttpHeaders hh = HttpUtil.createDefaultHeaders();
-		hh.setBasicAuth("system-admin", "infopedia_admin");
-		HttpEntity<SubContent> he = new HttpEntity<>(body, hh);
-		return he;
-	}	
-	
+
 	@SuppressWarnings("unused")
-	private List<SubContent> getByArticleIdOnError(Long articleId)
+	private SubContent getSingleOnError(Throwable t)
 	{
-		return Arrays.asList(getOnError(-1L, articleId));
+		return getUnavailable(-1L, -1L, -1L);
 	}
-	
-	private SubContent getOnError(Long id, Long articleId)
+
+	@SuppressWarnings("unused")
+	private List<SubContent> getMultipleOnError(Throwable t)
 	{
-		SubContent sc = new SubContent();
+		return Arrays.asList(getUnavailable(-1L, -1L, -1L));
+	}
+
+	@SuppressWarnings("unused")
+	private SubContent removeOnError(Throwable t)
+	{
+		if(t instanceof ResponseStatusException)
+			throw (ResponseStatusException) t;
+
+		throw new RuntimeException(t);
+	}
+
+	public SubContent getUnavailable(Long id, Long userId, Long articleId)
+	{
+		var sc = new SubContent();
 		sc.setId(id);
 		sc.setArticleId(articleId);
-		sc.setPosition((short)1);
-		sc.setType(SubContentType.TEXT);
-		sc.setTitle("Unavailable");
 		sc.setContent("Content unavailable");
+		sc.setPosition((short)1);
+		sc.setTitle("Unavailable");
+		sc.setType(SubContentType.TEXT);
+		sc.setUserId(userId);
 		return sc;
 	}
-	
-	
+
+
 	@Autowired
 	private RestTemplate restTemplate;
-	
-	@Autowired
-	private ArticleService articleService;
-	
-	
-	private String subContentURL =
+
+
+	private static final String SUBCONTENT_SERVICE_CB = "subContentServiceCB";
+
+	private static final String SUBCONTENT_URL =
 			"http://infopedia-sub-content-service/api/sub-content";
-	private String byIdURL = subContentURL + "/{id}";
-	private String byArticleIdURL = subContentURL + "/by-article-id/{articleId}";
-	private String byUserIdURL = subContentURL + "/by-user-id/{userId}";
+	private static final String BY_ID_URL = SUBCONTENT_URL + "/{id}";
+	private static final String BY_ARTICLE_ID_URL =
+			SUBCONTENT_URL + "/by-article-id/{articleId}";
+	private static final String BY_USER_ID_URL =
+			SUBCONTENT_URL + "/by-user-id/{userId}";
+	private static final String BY_CONTENT_WITH_URL =
+			SUBCONTENT_URL + "/by-content-with/{content}";
 }

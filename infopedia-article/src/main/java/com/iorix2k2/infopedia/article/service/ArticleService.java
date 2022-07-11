@@ -37,6 +37,16 @@ public class ArticleService
 		return articleRepository.findByTitleContainingIgnoreCase(title);
 	}
 	
+	public List<Article> getByContentWith(String content)
+	{
+		return articleRepository.findByContentContainingIgnoreCase(content);
+	}
+
+	public List<Article> getByIds(Long[] ids)
+	{
+		return articleRepository.findAllByIdIn(ids);
+	}
+
 	public Optional<Article> getById(Long id)
 	{
 		return articleRepository.findById(id); 
@@ -57,12 +67,12 @@ public class ArticleService
 	public Optional<Article> update(Article article)
 	{
 		validateFields(article, true);
-		Optional<Article> optional = articleRepository.findById(article.getId());
+		var optional = articleRepository.findById(article.getId());
 		
 		if(!optional.isEmpty())
 		{
 			article.setId(null);
-			Article updatedArticle = optional.get();
+			var updatedArticle = optional.get();
 			setNonNull(article, updatedArticle);
 			updatedArticle = articleRepository.save(updatedArticle);
 			return Optional.of(updatedArticle);
@@ -73,7 +83,7 @@ public class ArticleService
 	
 	public Optional<Article> remove(Long id)
 	{
-		Optional<Article> optional = getById(id);
+		var optional = getById(id);
 		
 		if(!optional.isEmpty())
 			articleRepository.deleteById(id);
@@ -88,7 +98,7 @@ public class ArticleService
 	
 	public List<Article> removeByUserId(Long userId)
 	{
-		List<Article> articleList = getByUserId(userId);
+		var articleList = getByUserId(userId);
 		
 		if(articleList.size() > 0)
 			articleRepository.deleteByUserId(userId);
@@ -98,9 +108,9 @@ public class ArticleService
 	
 	private void validateFields(Article article, boolean ignoreNull)
 	{
-		String[] fields = {"userId", "title", "content"};
-		boolean[] nullFields = {article.getUserId() == null, article.getTitle() == null,
-				article.getContent() == null};
+		var fields = new String[] {"userId", "title", "content"};
+		var nullFields = new boolean[] {article.getUserId() == null,
+				article.getTitle() == null, article.getContent() == null};
 		
 		for(int i = 0; i < fields.length; i++)
 		{
@@ -109,11 +119,11 @@ public class ArticleService
 			
 			validator.validateProperty(article, fields[i]).forEach((violation) ->
 			{
-				throw new InvalidDataException(InvalidDataExceptionType.CONSTRAINT_NOT_SATISFIED,
-						violation.getMessage());
+				throw new InvalidDataException(
+						InvalidDataExceptionType.CONSTRAINT_NOT_SATISFIED, violation.getMessage());
 			});
 		}
-  }
+	}
 	
 	private void setNonNull(Article from, Article to)
 	{

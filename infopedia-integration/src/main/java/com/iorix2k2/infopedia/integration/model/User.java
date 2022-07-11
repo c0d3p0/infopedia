@@ -120,6 +120,16 @@ public class User
 		this.articleList = articleList;
 	}
 
+	public Boolean getSystemAdmin()
+	{
+		return systemAdmin;
+	}
+
+	public void setSystemAdmin(Boolean systemAdmin)
+	{
+		this.systemAdmin = systemAdmin;
+	}
+
 
 	private Long id;
 	private String fullName;
@@ -132,4 +142,5 @@ public class User
 	private String token;
 	private Long tokenActiveTime;
 	private List<Article> articleList;
+	private Boolean systemAdmin;
 }

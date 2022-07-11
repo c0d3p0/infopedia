@@ -1,0 +1,121 @@
+.user-list {
+  width: 100%;
+  
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: 8rem;
+  margin-right: 8rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.user-list h1 {
+  font-size: 1.5em;
+
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: auto;
+}
+
+.user-list div:first-child {
+  display: flex;
+  flex-direction: row;
+}
+
+.user-list form {
+  background-color: #F8FCFF50;
+  width: 16rem;
+  height: 2rem;
+  
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  
+  border: 1px;
+  border-radius: 4px;
+  border-style: solid;
+  border-color: #F8FCFF50;
+  outline: none;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.user-list form input {
+  appearance: none;
+  background-color: transparent;
+  width: 14rem;
+  
+  color: #F8FCFF;
+  font-weight: bold;
+  font-size: 0.9em;
+  
+  border: 0;
+  outline: none;
+
+  margin-left: 0.5rem;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.user-list form button {
+  appearance: none;
+  background-color: transparent;
+  cursor: pointer;
+
+  color: #20262C;
+  font-weight: bold;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.3rem;
+
+  padding: 0 0.6rem;
+
+  border: 0;
+  outline: none;
+}
+
+.user-list form button:hover {
+  color: #F8FCFF;
+}
+
+.user-list .list-item label, 
+.user-list .list-item span {
+  font-size: 0.8em;
+}
+
+.user-list .list-item label {
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.user-list .list-item div:last-child {
+  margin-bottom: 1rem;
+}
+
+.user-list .list-item div {
+  display: flex;
+  flex-direction: row;
+}
+
+.user-list .list-item h2 {
+  font-size: 1.25em;
+  margin-right: auto;
+}
+
+.user-list .list-item button {
+  font-size: 2em;
+  height: 3rem;
+  width: 3rem;
+}
+
+.user-list .list-item button:not(:last-child) {
+  margin-right: 1rem;
+}
+
+.user-articles .list-item p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+

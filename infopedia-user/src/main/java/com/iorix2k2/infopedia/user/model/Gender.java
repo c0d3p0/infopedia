@@ -25,7 +25,7 @@ public enum Gender
 	@JsonCreator
 	public static Gender createFromText(String text)
 	{
-		String t = StringUtils.defaultString(text).toLowerCase().trim();
+		var t = StringUtils.defaultString(text).toLowerCase().trim();
 		
 		if(t.equals("male"))
 			return Gender.MALE;

@@ -1,0 +1,12 @@
+{
+  "fullName": "Infopedia System",
+  "age": 70,
+  "gender": "male",
+  "country": "Brazil",
+  "email": "infopedia.system@fake.com",
+  "username": "system",
+  "password": "infopedia_system_1234",
+  "token": "t-i",
+  "tokenActiveTime": 0,
+  "systemAdmin": true
+}

@@ -27,7 +27,7 @@ public enum SubContentType
 	@JsonCreator
 	public static SubContentType createFromText(String text)
 	{
-		String t = StringUtils.defaultString(text).toLowerCase().trim();
+		var t = StringUtils.defaultString(text).toLowerCase().trim();
 		
 		if(t.equals("text"))
 			return SubContentType.TEXT;

@@ -1,7 +1,5 @@
 package com.iorix2k2.infopedia.user.controller;
 
-import java.util.Map;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,86 +29,91 @@ public class UserController
 {
 	@GetMapping("")
 	public ResponseEntity<Catalogue<User>> getAll()
-	{	
-		Catalogue<User> body = new Catalogue<>(userService.getAll());
+	{
+		var body = new Catalogue<>(userService.getAll());
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getById(@PathVariable Long id)
 	{			
-		Optional<User> o = userService.getById(id);
-		User body = o.orElseThrow(() -> createException("User not found in the system!"));
+		var o = userService.getById(id);
+		var body = o.orElseThrow(() -> createException("User not found in the system!"));
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
-	
-	@GetMapping("/data-reduced-random/{amount}")
-	public ResponseEntity<Catalogue<User>> getReducedRandom(@PathVariable Long amount)
+
+	@GetMapping("/by-username-or-email-with/{text}")
+	public ResponseEntity<Catalogue<User>> getByUsernameOrEmail(@PathVariable String text)
+	{			
+		var body = new Catalogue<>(userService.getByUsernameOrEmailWith(text));
+		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
+	}
+
+	@GetMapping("/partial-random/{amount}")
+	public ResponseEntity<Catalogue<User>> getPartialRandom(@PathVariable Long amount)
 	{
-		Catalogue<User> body = new Catalogue<>(userService.getReducedRandom(amount));
+		var body = new Catalogue<>(userService.getPartialRandom(amount));
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/data-reduced-by-username-with/{username}")
-	public ResponseEntity<Catalogue<User>> getReducedByUsernameWith(
+	@GetMapping("/partial-by-username-with/{username}")
+	public ResponseEntity<Catalogue<User>> getPartialByUsernameWith(
 			@PathVariable String username)
 	{
-		Catalogue<User> body = new Catalogue<>(
-				userService.getReducedByUsernameWith(username));
+		var body = new Catalogue<>(userService.getPartialByUsernameWith(username));
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/data-reduced-by-id/{id}")
-	public ResponseEntity<User> getReducedById(@PathVariable Long id)
+	@GetMapping("/partial-by-id/{id}")
+	public ResponseEntity<User> getPartialById(@PathVariable Long id)
 	{
-		Optional<User> o = userService.getReducedById(id);
-		User body = o.orElseThrow(() -> createException("User not found in the system!"));
+		var o = userService.getPartialById(id);
+		var body = o.orElseThrow(() -> createException("User not found in the system!"));
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/your-data/{id}")
-	public ResponseEntity<User> getYourDataById(@PathVariable Long id,
-			Authentication authentication)
+	@GetMapping("/your-data")
+	public ResponseEntity<User> getYourDataById(Authentication authentication)
 	{
-		User user = (User) authentication.getPrincipal();
-		Optional<User> o = userService.getYourDataById(user.getId());
-		User body = o.orElseThrow(() -> createException("User not found in the system!"));
+		var user = (User) authentication.getPrincipal();
+		var o = userService.getYourDataById(user.getId());
+		var body = o.orElseThrow(() -> createException("User not found in the system!"));
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/check-full-permission")
 	public ResponseEntity<User> checkFullPermission(Authentication authentication)
 	{	
-		User body = (User) authentication.getPrincipal();
-		userService.cleanFullNameEmailPasswordToken(body);
+		var body = (User) authentication.getPrincipal();
+		userService.cleanMainData(body);
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/check-token-or-full-permission")
 	public ResponseEntity<User> checkTokenOrFullPermission(Authentication authentication)
 	{	
-		User body = (User) authentication.getPrincipal();
-		userService.cleanFullNameEmailPasswordToken(body);
+		var body = (User) authentication.getPrincipal();
+		userService.cleanMainData(body);
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
 
 	@GetMapping("/check-admin-permission")
 	public ResponseEntity<User> checkAdminPermission(Authentication authentication)
 	{	
-		User body = (User) authentication.getPrincipal();
-		userService.cleanFullNameEmailPasswordToken(body);
+		var body = (User) authentication.getPrincipal();
+		userService.cleanMainData(body);
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/check-token")
 	public ResponseEntity<User> checkToken(HttpServletRequest request)
 	{	
-		Map<String, String> map = HttpUtil.getBasicAuthCredentials(request, "IPU-Credentials");
-		String user = map.get("username");
-		String token = map.get("password");
-		Optional<User> o = userService.checkToken(user, token);
-		User body = o.orElseThrow(() -> createException("User not found in the system!"));
-		userService.cleanFullNameEmailPasswordToken(body);
+		var map = HttpUtil.getBasicAuthCredentials(request, "IPU-Credentials");
+		var user = map.get("username");
+		var token = map.get("password");
+		var o = userService.checkToken(user, token);
+		var body = o.orElseThrow(() -> createException("User not found in the system!"));
+		userService.cleanMainData(body);
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
 	
@@ -118,7 +121,7 @@ public class UserController
 	public ResponseEntity<User> add(@RequestBody User user, HttpServletRequest request)
 	{
 		setUserCredentialsFromHeaders(request, user);
-		User body = userService.add(user);
+		var body = userService.add(user);
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
 	
@@ -126,7 +129,8 @@ public class UserController
 	public ResponseEntity<User> signUp(@RequestBody User user, HttpServletRequest request)
 	{
 		setUserCredentialsFromHeaders(request, user);
-		User body = userService.add(user);
+		user.setSystemAdmin(false);
+		var body = userService.add(user);
 		userService.cleanFullNameEmailPassword(user);
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
@@ -134,9 +138,9 @@ public class UserController
 	@PatchMapping("/generate-token")
 	public ResponseEntity<User> generateToken(Authentication authentication)
 	{
-		User user = (User) authentication.getPrincipal();
-		Optional<User> o = userService.generateNewToken(user.getId());
-		User body = o.orElseThrow(() -> createException("User not found in the system!"));
+		var user = (User) authentication.getPrincipal();
+		var o = userService.generateNewToken(user.getId());
+		var body = o.orElseThrow(() -> createException("User not found in the system!"));
 		userService.cleanFullNameEmailPassword(body);
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
@@ -144,56 +148,59 @@ public class UserController
 	@PatchMapping("/expire-token")
 	public ResponseEntity<User> expireToken(Authentication authentication)
 	{
-		User user = (User) authentication.getPrincipal();
-		Optional<User> o = userService.expireToken(user.getId());
-		User body = o.orElseThrow(() -> createException("User not found in the system!"));
-		userService.cleanFullNameEmailPasswordToken(body);
+		var user = (User) authentication.getPrincipal();
+		var o = userService.expireToken(user.getId());
+		var body = o.orElseThrow(() -> createException("User not found in the system!"));
+		userService.cleanMainData(body);
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
-	
+
 	@PatchMapping("/{id}")
 	public ResponseEntity<User> update(@PathVariable Long id,
 			@RequestBody User user, HttpServletRequest request)
 	{
 		setUserCredentialsFromHeaders(request, user);
+		var un = user.getUsername();
+		user.setUsername(un != null && !un.isBlank() ? un : null);
 		user.setId(id);
-		Optional<User> o = userService.update(user);
-		User body = o.orElseThrow(() -> createException("User not found in the system!"));
+		var o = userService.update(user);
+		var body = o.orElseThrow(() -> createException("User not found in the system!"));
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
 
-	@PatchMapping("/your-data/{id}")
-	public ResponseEntity<User> updateYourData(@PathVariable Long id,
+	@PatchMapping("/your-data")
+	public ResponseEntity<User> updateYourData(
 			@RequestBody User user, Authentication authentication)
 	{
-		User authorizedUser = (User) authentication.getPrincipal();
+		var authorizedUser = (User) authentication.getPrincipal();
 		user.setId(authorizedUser.getId());
 		user.setPassword(null);
 		user.setTokenActiveTime(null);
-		Optional<User> o = userService.update(user);
-		User body = o.orElseThrow(() -> createException("User not found in the system!"));
+		user.setSystemAdmin(null);
+		var o = userService.update(user);
+		var body = o.orElseThrow(() -> createException("User not found in the system!"));
 		userService.cleanCredentials(body);
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
 
-	@PatchMapping("/change-password/{id}")
-	public ResponseEntity<User> changePassword(@PathVariable Long id,
+	@PatchMapping("/change-password")
+	public ResponseEntity<User> changePassword(
 			HttpServletRequest request, Authentication authentication)
 	{
-		User user = (User) authentication.getPrincipal();
-		Map<String, String> map = HttpUtil.getBasicAuthCredentials(request, "IPU-Credentials");
-		String newPassword = map.get("password");
-		Optional<User> o = userService.changePassword(user.getId(), newPassword);
-		User body = o.orElseThrow(() -> createException("User not found in the system!"));
-		userService.cleanFullNameEmailPasswordToken(body);
+		var user = (User) authentication.getPrincipal();
+		var map = HttpUtil.getBasicAuthCredentials(request, "IPU-Credentials");
+		var newPassword = map.get("password");
+		var o = userService.changePassword(user.getId(), newPassword);
+		var body = o.orElseThrow(() -> createException("User not found in the system!"));
+		userService.cleanMainData(body);
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<User> remove(@PathVariable Long id)
 	{
-		Optional<User> o = userService.remove(id);
-		User body = o.orElseThrow(() -> createException("User not found in the system!"));
+		var o = userService.remove(id);
+		var body = o.orElseThrow(() -> createException("User not found in the system!"));
 		return new ResponseEntity<>(body, HttpUtil.createDefaultHeaders(), HttpStatus.OK);
 	}
 	
@@ -201,7 +208,7 @@ public class UserController
 	{
 		user.setUsername(null);
 		user.setPassword(null);
-		Map<String, String> map = HttpUtil.getBasicAuthCredentials(request, "IPU-Credentials");
+		var map = HttpUtil.getBasicAuthCredentials(request, "IPU-Credentials");
 		user.setUsername(map.get("username"));
 		user.setPassword(map.get("password"));
 	}

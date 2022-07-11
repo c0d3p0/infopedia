@@ -1,0 +1,15 @@
+.user-side-menu {
+  height: 100%;
+  min-width: 12rem;
+  
+  background-color: #20262C;
+  text-align: center;
+  
+  border: 0;
+  border-style: solid;
+  border-right-width: 1px;
+  border-color: #30363C;
+
+  display: flex;
+  flex-direction: column;
+}

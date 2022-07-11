@@ -1,0 +1,8 @@
+{
+  "userId": 5,
+  "articleId": 16,
+  "position": 4,
+  "type": "text",
+  "title": "Other Features",
+  "content": "\"Godot contains an animation system with a GUI for skeletal animation, blending, animation trees, morphing, and real-time cutscenes. Almost any variable defined or created-on-a-game entity can be animated. The engine uses Bullet for 3D physics simulation.\nAdditional features include: Performance analysis graphs, light baking, multithreading, plugins system, render targets, video playback using the Theora codec, audio playback of ogg Vorbis and WAV codecs, particle system, texture import/export/compress pipeline, navmesh support, graphical user interface, keyboard, mouse, gamepad and touchscreen support\" by Wikipedia"
+}

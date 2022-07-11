@@ -1,0 +1,8 @@
+{
+  "userId": 5,
+  "articleId": 15,
+  "position": 1,
+  "type": "text",
+  "title": "Syntax",
+  "content": "\n\n\nData types\n\nQuantum: qureg, quvoid, quconst, quscratch, qucond\nClassical: int, real, complex, boolean, string, vector, matrix, tensor\n\n\nFunction types\n\nqufunct: Pseudo-classic operators. Can only change the permutation of basic states.\noperator: General unitary operators. Can change the amplitude.\nprocedure: Can call measure, print, and dump inside this function. This function is non-invertible.\n\n\nBuilt-in functions\n\nQuantum\nqufunct: Fanout, Swap, Perm2, Perm4, Perm8, Not, CNot\noperator: Matrix2x2, Matrix4x4, Matrix8x8, Rot, Mix, H, CPhase, SqrtNot, X, Y, Z, S, T\nprocedure - measure, dump, reset\n\nClassical\nArithmetic - sin, cos, tan, log, sqrt, ...\nComplex - Re, Im, conj\nby Wikipedia"
+}

@@ -22,31 +22,36 @@ import com.iorix2k2.infopedia.service.FrontendService;
 public class FrontendController
 {
 	@GetMapping("/{serviceName}/**")
-	public ResponseEntity<String> dispatchGet(@PathVariable String serviceName, HttpServletRequest request)
+	public ResponseEntity<String> dispatchGet(
+			@PathVariable String serviceName, HttpServletRequest request)
 	{
 		return frontendService.executeRequest(serviceName, HttpMethod.GET, request);
 	}
 	
 	@PostMapping("/{serviceName}/**")
-	public ResponseEntity<String> dispatchPost(@PathVariable String serviceName, HttpServletRequest request)
+	public ResponseEntity<String> dispatchPost(
+			@PathVariable String serviceName, HttpServletRequest request)
 	{
 		return frontendService.executeRequest(serviceName, HttpMethod.POST, request);
 	}
 	
 	@PutMapping("/{serviceName}/**")
-	public ResponseEntity<String> dispatchPut(@PathVariable String serviceName, HttpServletRequest request)
+	public ResponseEntity<String> dispatchPut(
+			@PathVariable String serviceName, HttpServletRequest request)
 	{
 		return frontendService.executeRequest(serviceName, HttpMethod.PUT, request);
 	}
 	
 	@PatchMapping("/{serviceName}/**")
-	public ResponseEntity<String> dispatchPatch(@PathVariable String serviceName, HttpServletRequest request)
+	public ResponseEntity<String> dispatchPatch(
+			@PathVariable String serviceName, HttpServletRequest request)
 	{
 		return frontendService.executeRequest(serviceName, HttpMethod.PATCH, request);
 	}
 	
 	@DeleteMapping("/{serviceName}/**")
-	public ResponseEntity<String> dispatchDelete(@PathVariable String serviceName, HttpServletRequest request)
+	public ResponseEntity<String> dispatchDelete(
+			@PathVariable String serviceName, HttpServletRequest request)
 	{
 		return frontendService.executeRequest(serviceName, HttpMethod.DELETE, request);
 	}

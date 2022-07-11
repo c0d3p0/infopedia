@@ -8,8 +8,8 @@ import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.iorix2k2.infopedia.subcontent.exception.InvalidDataException;
-import com.iorix2k2.infopedia.subcontent.exception.InvalidDataExceptionType;
+import com.iorix2k2.infopedia.subcontent.error.InvalidDataException;
+import com.iorix2k2.infopedia.subcontent.error.InvalidDataExceptionType;
 import com.iorix2k2.infopedia.subcontent.model.SubContent;
 import com.iorix2k2.infopedia.subcontent.model.SubContentType;
 import com.iorix2k2.infopedia.subcontent.repository.SubContentRepository;
@@ -32,7 +32,12 @@ public class SubContentService
 	{
 		return subContentRepository.findById(id);
 	}
-	
+
+	public List<SubContent> getByContentWith(String content)
+	{
+		return subContentRepository.findByContentContainingIgnoreCase(content);
+	}
+
 	public SubContent add(SubContent subContent)
 	{
 		subContent.setId(null);
@@ -44,12 +49,12 @@ public class SubContentService
 	public Optional<SubContent> update(SubContent subContent)
 	{
 		validateFields(subContent, true);
-		Optional<SubContent> optional = subContentRepository.findById(subContent.getId());
+		var optional = subContentRepository.findById(subContent.getId());
 		
 		if(!optional.isEmpty())
 		{
 			subContent.setId(null);
-			SubContent updateSubContent = optional.get();
+			var updateSubContent = optional.get();
 			setNonNull(subContent, updateSubContent);
 			fixContentOfTypeImageLinkOrLink(updateSubContent);
 			updateSubContent = subContentRepository.save(updateSubContent);
@@ -61,7 +66,7 @@ public class SubContentService
 	
 	public Optional<SubContent> remove(Long id)
 	{
-		Optional<SubContent> optional = subContentRepository.findById(id);
+		var optional = subContentRepository.findById(id);
 		
 		if(!optional.isEmpty())
 			subContentRepository.deleteById(id);
@@ -76,7 +81,7 @@ public class SubContentService
 	
 	public List<SubContent> removeByArticleId(Long articleId)
 	{
-		List<SubContent> subContentList = subContentRepository.
+		var subContentList = subContentRepository.
 				findByArticleIdOrderByPositionAscIdAsc(articleId);
 		
 		if(subContentList.size() > 0)
@@ -87,8 +92,7 @@ public class SubContentService
 	
 	public List<SubContent> removeByUserId(Long userId)
 	{
-		List<SubContent> subContentList = subContentRepository.
-				findByUserId(userId);
+		var subContentList = subContentRepository.findByUserId(userId);
 		
 		if(subContentList.size() > 0)
 			subContentRepository.deleteByUserId(userId);
@@ -98,9 +102,9 @@ public class SubContentService
 	
 	private void validateFields(SubContent subContent, boolean ignoreNull)
 	{
-		String[] fields = {"userId", "articleId", "position", "type",
-				"title", "content"};
-		boolean[] nullFields = {subContent.getUserId() == null,
+		var fields = new String[]{"userId", "articleId",
+				"position", "type", "title", "content"};
+		var nullFields = new boolean[] {subContent.getUserId() == null,
 				subContent.getArticleId() == null, subContent.getPosition() == null,
 				subContent.getType() == null, subContent.getTitle() == null,
 				subContent.getContent() == null};
@@ -116,7 +120,7 @@ public class SubContentService
 						violation.getMessage());
 			});
 		}
-  }
+	}
 
 	private void setNonNull(SubContent from, SubContent to)
 	{
@@ -148,8 +152,8 @@ public class SubContentService
 				subContent.getType() == SubContentType.IMAGE_LINK ||
 				subContent.getType() == SubContentType.LINK)
 		{
-			subContent.setContent(subContent.getContent().replaceAll(
-					"(\\\\{1,2}[trsn])+|([\\u0020\\u0085\\u2028\\u2029\\u0009])+", "\n"));
+			var p = "(\\\\{1,2}[trsn])+|([\\u0020\\u0085\\u2028\\u2029\\u0009])+";
+			subContent.setContent(subContent.getContent().replaceAll(p, "\n"));
 		}
 	}
 	

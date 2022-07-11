@@ -3,8 +3,8 @@ package com.iorix2k2.infopedia.integration.error;
 
 public class InvalidDataException extends RuntimeException
 {
-	public InvalidDataException(InvalidDataExceptionType invalidDataExceptionType,
-				String message)
+	public InvalidDataException(
+			InvalidDataExceptionType invalidDataExceptionType, String message)
 	{
 		super(message);
 		this.invalidDataExceptionType = invalidDataExceptionType; 
@@ -14,7 +14,7 @@ public class InvalidDataException extends RuntimeException
 	{
 		return invalidDataExceptionType;
 	}
-	
+
 
 	private InvalidDataExceptionType invalidDataExceptionType;
 	

@@ -1,0 +1,82 @@
+.sub-content-form {
+  width: 100%;
+
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: 6rem;
+  margin-right: 6rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.sub-content-form .sub-content-remove {
+  font-size: 1em;
+  margin-top: 2rem;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.sub-content-form h1 {
+  font-size: 1.5em;
+  text-align: left;
+  margin: 0;
+}
+
+.sub-content-form hr {
+  height: 1px;
+  
+  margin-top: 0.4rem;
+  margin-bottom: 0.8rem;
+
+  margin-left: 0;
+  margin-right: 0;
+  
+  border: 0;
+  background-color: #F8FCFF80;
+}
+
+.sub-content-form div {
+  width: 30rem;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.sub-content-form div label {
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.sub-content-form h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.sub-content-form form {
+  width: 30rem;
+  margin-top: 1rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.sub-content-form form input,
+.sub-content-form form select,
+.sub-content-form form textarea {
+  margin-bottom: 1rem;
+}
+
+.sub-content-form form textarea {
+  height: 20rem;
+  resize: none;
+}
+
+.sub-content-form form button {
+  font-size: 1em;
+  margin-top: 1rem;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}

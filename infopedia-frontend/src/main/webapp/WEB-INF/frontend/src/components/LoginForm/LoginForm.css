@@ -1,0 +1,70 @@
+.login-form {
+  flex: 1 1 auto;
+
+  margin-top: auto;
+  margin-bottom: auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form .box-dark {
+  width: 20rem;
+
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
+}
+
+.login-form .box-dark:first-child {
+  margin-top: 2rem;
+}
+
+.login-form .box-dark h3 {
+  font-size: 1.2em;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.login-form .box-dark img {
+  max-height: 3rem;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login-form .box-dark form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form .box-dark form label {
+  font-size: 0.8em;
+  margin-bottom: 0.5rem;
+}
+
+.login-form .box-dark form input {
+  margin-bottom: 1rem;
+}
+
+.login-form .box-dark form button {
+  font-size: 1em;
+
+  margin-top: 1rem;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.login-form .box-dark div {
+  font-size: 0.8em;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.login-form .box-dark a {
+  font-size: 1em;
+}

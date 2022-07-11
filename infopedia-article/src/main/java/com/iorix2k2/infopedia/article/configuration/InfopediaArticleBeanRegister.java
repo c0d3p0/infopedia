@@ -6,7 +6,6 @@ import java.util.TimeZone;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -14,7 +13,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
+import com.iorix2k2.infopedia.article.error.GlobalExceptionResolver;
 import com.iorix2k2.infopedia.article.error.RestResponseErrorHandler;
 
 
@@ -24,14 +25,14 @@ public class InfopediaArticleBeanRegister
 	@Bean
 	public Validator validator()
 	{
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		var factory = Validation.buildDefaultValidatorFactory();
 		return factory.getValidator();
 	}
 	
 	@Bean
 	public DateFormat defaultDateFormat()
 	{
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+		var df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 		df.setTimeZone(TimeZone.getTimeZone("GMT"));
 		return df;
 	}
@@ -40,13 +41,19 @@ public class InfopediaArticleBeanRegister
 	@LoadBalanced
 	public RestTemplate restTemplate()
 	{
-		RestTemplate rt = new RestTemplate();
-		rt.setErrorHandler(restResponseErrorHander);
+		var rt = new RestTemplate();
+		rt.setErrorHandler(restResponseErrorHandler);
 		rt.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 		return rt;
 	}
-	
+
+	@Bean
+	public HandlerExceptionResolver exceptionResolver()
+	{
+		return new GlobalExceptionResolver();
+	}
+
 	
 	@Autowired
-	private RestResponseErrorHandler restResponseErrorHander;
+	private RestResponseErrorHandler restResponseErrorHandler;
 }

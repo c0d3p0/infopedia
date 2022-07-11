@@ -1,0 +1,8 @@
+{
+  "userId": 5,
+  "articleId": 15,
+  "position": 2,
+  "type": "text",
+  "title": "Examples",
+  "content": "\"The basic built-in quantum data type in QCL is the qureg (quantum register). It can be interpreted as an array of qubits (quantum bits).\n\nqureg x1[2]; // 2-qubit quantum register x1\nqureg x2[2]; // 2-qubit quantum register x2\nH(x1); // Hadamard operation on x1\nH(x2[1]); // Hadamard operation on the first qubit of the register x2\nSince the qcl interpreter uses qlib simulation library, it is possible to observe the internal state of the quantum machine during execution of the quantum program.\n\nqcl> dump\n: STATE: 4 / 32 qubits allocated, 28 / 32 qubits free\n0.35355 |0> + 0.35355 |1> + 0.35355 |2> + 0.35355 |3>\n+ 0.35355 |8> + 0.35355 |9> + 0.35355 |10> + 0.35355 |11>\n\nNote that the dump operation is different from measurement, since it does not influence the state of the quantum machine and can be realized only using a simulator.\nLike in modern programming languages, it is possible to define new operations which can be used to manipulate quantum data. For example:\n\noperator diffuse (qureg q) {\n  H(q);                 // Hadamard Transform\n  Not(q);               // Invert q\n  CPhase(pi, q);        // Rotate if q=1111..\n  !Not(q);              // undo inversion\n  !H(q);                // undo Hadamard Transform\n}\n\ndefines inverse about the mean operator used in Grover's algorithm. This allows one to define algorithms on a higher level of abstraction and extend the library of functions available for programmers.\" by Wikipedia"
+}

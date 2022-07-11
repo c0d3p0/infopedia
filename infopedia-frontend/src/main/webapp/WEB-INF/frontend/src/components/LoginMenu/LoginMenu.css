@@ -1,0 +1,9 @@
+.login-menu {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 1rem;
+}
+
+.login-menu button:not(:last-child) {
+  margin-right: 0.5rem;
+}

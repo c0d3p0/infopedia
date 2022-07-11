@@ -1,5 +1,6 @@
 package com.iorix2k2.infopedia.subcontent.repository;
 
+
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -13,6 +14,7 @@ import com.iorix2k2.infopedia.subcontent.model.SubContent;
 public interface SubContentRepository extends JpaRepository<SubContent, Long>
 {
 	List<SubContent> findByArticleIdOrderByPositionAscIdAsc(Long articleId);
+	List<SubContent> findByContentContainingIgnoreCase(String content);
 	List<SubContent> findByUserId(Long userId);
 	
 	@Transactional

@@ -1,0 +1,38 @@
+.invalid-url {
+  width: 40rem;
+  text-align: justify;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.invalid-url img {
+  height: 10rem;
+
+  margin-top: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.invalid-url h1 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.invalid-url p {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+
+.invalid-url i {
+  font-size: 4em;
+  
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -1,3 +1,4 @@
+/*
 --- Titan ---
 
 INSERT INTO
@@ -275,6 +276,8 @@ INSERT INTO
 	sub_content(user_id, article_id, position, type, title, content)
 VALUES
 	(1, 5, 5, 2, 'References', 'https://en.wikipedia.org/wiki/Hypernova');
+
+
 --- Hypernova ---
 
 
@@ -698,6 +701,7 @@ VALUES
 
 
 --- Godot (Game Engine) ---
+*/
 
 
 

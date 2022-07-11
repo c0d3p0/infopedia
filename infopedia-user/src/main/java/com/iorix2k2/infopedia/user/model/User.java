@@ -18,8 +18,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 @Entity
-@Table(name = "infopedia_user")
 @DynamicUpdate
+@Table(name="infopedia_user")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User
 {	
@@ -159,6 +159,27 @@ public class User
 		this.tokenActiveTime = tokenActiveTime;
 	}
 
+	public Boolean isSystemAdmin()
+	{
+		return systemAdmin;
+	}
+
+	public void setSystemAdmin(Boolean systemAdmin)
+	{
+		this.systemAdmin = systemAdmin;
+	}
+
+	@Override
+	public String toString()
+	{
+		var g = gender != null ? gender.toString() : null;
+		var f = "{'id': %d, 'fullName': %s, 'age': %d, 'gender': %s, ";
+		f += "'country': %s, 'email': %s, 'username': %s, 'password': %s, ";
+		f += "'token': %s, 'tokenActiveTime': %d, 'systemAdmin': %b}";
+		return String.format(f, id, fullName, age, g, country,
+				email, username, password, token, tokenActiveTime, systemAdmin);
+	}
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -201,4 +222,8 @@ public class User
 	@NotNull(message = "User 'tokenActiveTime' can't be empty!")
 	@Min(value = 0, message = "User 'tokenActiveTime' can't be less than 0!")
 	private Long tokenActiveTime;
+
+
+	@NotNull(message = "User 'systemAdmin' can't be empty!")
+	private Boolean systemAdmin;
 }

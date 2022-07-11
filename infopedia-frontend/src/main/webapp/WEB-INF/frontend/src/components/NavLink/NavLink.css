@@ -1,0 +1,8 @@
+.nav-link {
+  margin-right: auto;
+}
+
+.nav-link .menu-item {
+  height: 100%;
+  padding: 0 16px;
+}

@@ -1,0 +1,8 @@
+{
+  "userId": 5,
+  "articleId": 16,
+  "position": 3,
+  "type": "text",
+  "title": "Rendering",
+  "content": "\"Godot's graphics engine uses OpenGL ES 3.0 for all supported platforms; otherwise, OpenGL ES 2.0 is used. Future support for Vulkan is being developed. The engine supports normal mapping, specularity, dynamic shadows using shadow maps, and full-screen post-processing effects like FXAA, bloom, DOF, HDR, and gamma correction. A simplified shader language, similar to GLSL, is also incorporated. Shaders can be used for materials and post-processing. Alternatively, they can be created by manipulating nodes in a visual editor.\nGodot also includes a separate 2D graphics engine that can operate independently of the 3D engine. The 2D engine supports features such as lights, shadows, shaders, tile sets, parallax scrolling, polygons, animations, physics and particles. It is also possible to mix 2D and 3D using a \"viewport node\".\" by Wikipedia"
+}

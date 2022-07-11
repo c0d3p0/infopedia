@@ -1,0 +1,70 @@
+.user-form {
+  width: 100%;
+
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: 6rem;
+  margin-right: 6rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.user-form h1 {
+  font-size: 1.5em;
+  text-align: left;
+  margin: 0;
+}
+
+.user-form hr {
+  height: 1px;
+  
+  margin-top: 0.4rem;
+  margin-bottom: 0.8rem;
+
+  margin-left: 0;
+  margin-right: 0;
+  
+  border: 0;
+  background-color: #F8FCFF80;
+}
+
+.user-form form {
+  width: 20rem;
+  margin-top: 1rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.user-form form div {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-form form label {
+  font-size: 0.8em;
+  margin-bottom: 0.5rem;
+}
+
+.user-form form input,
+.user-form form select {
+  margin-bottom: 1rem;
+}
+
+.user-form form button {
+  font-size: 1em;
+  margin-top: 1rem;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.user-form .change-password-form {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-form .change-password-form form {
+  margin-top: 1rem;
+}

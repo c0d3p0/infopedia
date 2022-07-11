@@ -1,43 +1,60 @@
 package com.iorix2k2.infopedia.article.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+
+import com.iorix2k2.infopedia.article.error.RestAuthenticationEntryPoint;
 
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
+public class WebSecurityConfiguration
 {
-	@Override
-	protected void configure(HttpSecurity http) throws Exception
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
 	{
 		http.csrf().disable().sessionManagement().
-		sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().
-		authorizeRequests().
-		
-		
-		antMatchers(HttpMethod.POST, articleURL).permitAll().
-		
-		antMatchers(HttpMethod.GET, articleURL, randomURL, byUserIdURL,
-				byTitleURL, byIdURL, byIdAndUserIdURL).permitAll().
-		
-		antMatchers(HttpMethod.PATCH, byIdURL).permitAll().
-		
-		antMatchers(HttpMethod.DELETE, byIdURL, byUserIdURL).permitAll().
-		
-		
-		anyRequest().denyAll();
+				sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().
+				exceptionHandling().
+				authenticationEntryPoint(restAuthenticationEntryPoint).and().
+				authorizeRequests().
+				
+				
+				antMatchers(HttpMethod.POST, ARTICLE_URL).permitAll().
+				
+				antMatchers(HttpMethod.GET, ARTICLE_URL, RANDOM_URL,
+						BY_USER_ID_URL, BY_TITLE_URL, BY_CONTENT_URL,
+						BY_ID_URL, BY_IDS_URL, BY_ID_AND_USER_ID_URL).permitAll().
+				
+				antMatchers(HttpMethod.PATCH, BY_ID_URL).permitAll().
+				
+				antMatchers(HttpMethod.DELETE, BY_ID_URL, BY_USER_ID_URL).permitAll().
+				
+				anyRequest().denyAll();
+
+		return http.build();
 	}
-	
-	
-	private String articleURL = "/article";
-	private String randomURL = "/article/random/{amount}";
-	private String byUserIdURL = "/article/by-user-id/{userId}";
-	private String byTitleURL = "/article/by-title-with/{title}";
-	private String byIdURL = "/article/{id}";
-	private String byIdAndUserIdURL = "/article/by-id-and-user-id/{id}/{userId}";
+
+
+	@Autowired
+	private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
+
+	private static final String ARTICLE_URL = "/article";
+	private static final String RANDOM_URL = "/article/random/{amount}";
+	private static final String BY_USER_ID_URL = "/article/by-user-id/{userId}";
+	private static final String BY_TITLE_URL = "/article/by-title-with/{title}";
+	private static final String BY_CONTENT_URL = "/article/by-content-with/{content}";
+	private static final String BY_ID_URL = "/article/{id}";
+	private static final String BY_IDS_URL = "/article/by-ids/{ids}";
+	private static final String BY_ID_AND_USER_ID_URL =
+			"/article/by-id-and-user-id/{id}/{userId}";
+
+			
 }

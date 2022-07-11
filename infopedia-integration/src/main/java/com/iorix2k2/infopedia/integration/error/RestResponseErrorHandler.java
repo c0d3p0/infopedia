@@ -15,14 +15,15 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 @Component
 public class RestResponseErrorHandler extends DefaultResponseErrorHandler
 {
-  @Override
-  public void handleError(ClientHttpResponse response) throws IOException
-  {
-  	ObjectNode on = objectMapper.readValue(response.getBody(), ObjectNode.class);
-  	throw new ResponseStatusException(response.getStatusCode(), on.get("message").asText());
-  }
-  
-  
-  @Autowired
-  private ObjectMapper objectMapper;
+	@Override
+	public void handleError(ClientHttpResponse response) throws IOException
+	{
+		var on = objectMapper.readValue(response.getBody(), ObjectNode.class);
+		var message = on.get("message").asText();
+		throw new ResponseStatusException(response.getStatusCode(), message);
+	}
+	
+	
+	@Autowired
+	private ObjectMapper objectMapper;
 }

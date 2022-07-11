@@ -23,10 +23,10 @@ public class FrontendService
 		createServiceUrlMap();
 	}
 
-	public ResponseEntity<String> executeRequest(String serviceName, HttpMethod method,
-			HttpServletRequest request)
+	public ResponseEntity<String> executeRequest(
+			String serviceName, HttpMethod method, HttpServletRequest request)
 	{
-		String url = serviceUrlMap.get(serviceName);
+		var url = serviceUrlMap.get(serviceName);
 		
 		if(url != null)
 		{

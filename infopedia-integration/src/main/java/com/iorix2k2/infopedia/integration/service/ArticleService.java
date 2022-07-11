@@ -1,218 +1,139 @@
 package com.iorix2k2.infopedia.integration.service;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
+
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
 import com.iorix2k2.infopedia.integration.model.Article;
 import com.iorix2k2.infopedia.integration.model.Catalogue;
 import com.iorix2k2.infopedia.integration.model.SubContent;
 import com.iorix2k2.infopedia.util.HttpUtil;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 
 @Service
 public class ArticleService
 {
-	@HystrixCommand(fallbackMethod = "getByIdOnError",
-			commandProperties = {
-					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "8000"),
-					@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "40"),
-					@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
-					@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			},
-			threadPoolKey = "articleGetById",
-			threadPoolProperties = {@HystrixProperty(name = "coreSize", value = "100")})
-	public Article getById(Long id)
-	{
-		Article article = restTemplate.getForObject(byIdURL, Article.class, id);
-		article.setUser(userService.getReducedById(article.getUserId()));
-		article.setSubContentList(subContentService.getByArticleId(id));
-		return article;
-	}
-
-	@HystrixCommand(fallbackMethod = "",
-			commandProperties = {
-					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "8000"),
-					@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "40"),
-					@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
-					@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			},
-			threadPoolKey = "articleGetByUserId",
-			threadPoolProperties = {@HystrixProperty(name = "coreSize", value = "100")})
+	@CircuitBreaker(name = ARTICLE_SERVICE_CB, fallbackMethod = "getMultipleOnError")
 	public List<Article> getByUserId(Long userId)
 	{
-		return restTemplate.exchange(byUserIdURL, HttpMethod.GET, null,
-				new ParameterizedTypeReference<Catalogue<Article>>(){}, userId).getBody().getList();
+		var ptr = new ParameterizedTypeReference<Catalogue<Article>>(){};
+		return restTemplate.exchange(BY_USER_ID_URL,
+				HttpMethod.GET, null, ptr, userId).getBody().getList();
 	}
-	
-	@HystrixCommand(fallbackMethod = "",
-			commandProperties = {
-					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "8000"),
-					@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "40"),
-					@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
-					@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			},
-			threadPoolKey = "articleGetByIdAndUserId",
-			threadPoolProperties = {@HystrixProperty(name = "coreSize", value = "100")})
+
+	@CircuitBreaker(name = ARTICLE_SERVICE_CB, fallbackMethod = "getSingleOnError")
 	public Article getByIdAndUserId(Long id, Long userId)
 	{
-		return restTemplate.getForObject(byIdAndUserIdURL, Article.class, id, userId);
+		return restTemplate.getForObject(
+				BY_ID_AND_USER_ID_URL, Article.class, id, userId);
 	}
-	
-	@HystrixCommand(fallbackMethod = "",
-			commandProperties = {
-					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "8000"),
-					@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "40"),
-					@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
-					@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			},
-			threadPoolKey = "articleAddFromUser",
-			threadPoolProperties = {@HystrixProperty(name = "coreSize", value = "100")})
-	public Article addFromUser(Article article, Long userId)
+
+	@CircuitBreaker(name = ARTICLE_SERVICE_CB, fallbackMethod = "addOnError")
+	public Article addByUser(Long userId, Article article)
 	{
 		article.setUserId(userId);
-		HttpEntity<Article> he = createPayload(article);
-		return restTemplate.exchange(articleURL, HttpMethod.POST, he,
+		var he = createPayload(article);
+		return restTemplate.exchange(ARTICLE_URL, HttpMethod.POST, he,
 				Article.class).getBody();
 	}
-	
-	@HystrixCommand(fallbackMethod = "",
-			commandProperties = {
-					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "8000"),
-					@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "40"),
-					@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
-					@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			},
-			threadPoolKey = "articleUpdateFromUser",
-			threadPoolProperties = {@HystrixProperty(name = "coreSize", value = "100")})
-	public Article updateFromUser(Article article, Long userId)
+
+	@CircuitBreaker(name = ARTICLE_SERVICE_CB, fallbackMethod = "updateOnError")
+	public Article updateByUser(Long userId, Article article)
 	{
 		article.setUserId(null);
-		restTemplate.getForObject(byIdAndUserIdURL, Article.class,
-				article.getId(), userId);
-		HttpEntity<Article> he = createPayload(article);
-		return restTemplate.exchange(byIdURL, HttpMethod.PATCH, he,
-				Article.class, article.getId()).getBody();
-	}
-	
-	@HystrixCommand(fallbackMethod = "",
-			commandProperties = {
-					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "8000"),
-					@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "40"),
-					@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
-					@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			},
-			threadPoolKey = "articleRemoveFromUser",
-			threadPoolProperties = {@HystrixProperty(name = "coreSize", value = "100")})
-	public Article remove(Long id)
-	{
-		Article articleFound = restTemplate.getForObject(byIdURL, Article.class, id);
-		return removeInCascade(articleFound);
-	}
-	
-	@HystrixCommand(fallbackMethod = "",
-			commandProperties = {
-					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "8000"),
-					@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "40"),
-					@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
-					@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			},
-			threadPoolKey = "articleRemoveFromUser",
-			threadPoolProperties = {@HystrixProperty(name = "coreSize", value = "100")})
-	public Article removeFromUser(Long id, Long userId)
-	{
-		Article articleFound = restTemplate.getForObject(byIdAndUserIdURL,
-				Article.class, id, userId);
-		return removeInCascade(articleFound);
-	}
-	
-	@HystrixCommand(fallbackMethod = "",
-			commandProperties = {
-					@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "8000"),
-					@HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "40"),
-					@HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "50"),
-					@HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "10000"),
-			},
-			threadPoolKey = "articleRemoveByUserId",
-			threadPoolProperties = {@HystrixProperty(name = "coreSize", value = "100")})
-	public List<Article> removeByUserId(Long userId)
-	{
-		List<SubContent> dscl = subContentService.removeByUserId(userId);
-		HttpEntity<Article> he = createPayload(null);
-		List<Article> dal = restTemplate.exchange(byUserIdURL, HttpMethod.DELETE,
-				he, new ParameterizedTypeReference<Catalogue<Article>>(){}, userId).
-				getBody().getList();
-		Map<Long, Article> am = new HashMap<>();
-		dal.forEach((article) -> am.put(article.getId(), article));
-		dscl.forEach((subContent) -> 
-		{
-			Article a = am.get(subContent.getArticleId());
-			
-			if(a != null)
-				a.getSubContentList().add(subContent);
-		});
-		
-		return dal;
-	}
-	
-	private Article removeInCascade(Article article)
-	{
-		List<SubContent> dscl = subContentService.removeByArticleId(
-				article.getId(), article.getUserId());
-		HttpEntity<Article> he = createPayload(null);
-		Article deletedArticle = restTemplate.exchange(byIdURL, HttpMethod.DELETE,
+		getByIdAndUserIdWithError(article.getId(), userId);
+		var he = createPayload(article);
+		return restTemplate.exchange(BY_ID_URL, HttpMethod.PATCH,
 				he, Article.class, article.getId()).getBody();
-		deletedArticle.setSubContentList(dscl);
-		return deletedArticle;
 	}
-	
-	private HttpEntity<Article> createPayload(Article body)
+
+	public Article getByIdAndUserIdWithError(Long id, Long userId)
 	{
-		HttpHeaders hh = HttpUtil.createDefaultHeaders();
-		hh.setBasicAuth("system-admin", "infopedia_admin");
-		HttpEntity<Article> he = new HttpEntity<>(body, hh);
+		var article = getByIdAndUserId(id, userId);
+		var articleId = article.getId();
+
+		if(articleId != null && articleId > -1)
+			return article;
+		
+		if(articleId < 0)
+		{
+			var message = "The article service is unavailable!";
+			throw new RuntimeException(message);
+		}
+
+		var message = "Article not found or the user is not the owner of the article!";
+		throw new RuntimeException(message);
+	}
+
+	public HttpEntity<Article> createPayload(Article body)
+	{
+		var hh = HttpUtil.createDefaultHeaders();
+		hh.setBasicAuth("system", "infopedia_system_1234");
+		var he = new HttpEntity<>(body, hh);
 		return he;
-	}	
+	}
 
 	@SuppressWarnings("unused")
-	private Article getByIdOnError(Long id)
+	private List<Article> getMultipleOnError(Throwable t)
 	{
-		return getOnError(-1L);
+		return Arrays.asList(getUnavailable(-1L, -1L));
 	}
-	
-	private Article getOnError(Long id)
-	{
-		Article article = new Article();
-		article.setId(id);
-		article.setUserId(-1L);
-		article.setTitle("Unavailable");
-		article.setContent("Unavailable");
-		return article;
-	}	
 
-	
+	@SuppressWarnings("unused")
+	private Article getSingleOnError(Throwable t)
+	{
+		return getUnavailable(-1L, -1L);
+	}
+
+	@SuppressWarnings("unused")
+	private Article addOnError(Throwable t)
+	{
+		if(t instanceof ResponseStatusException)
+			throw (ResponseStatusException) t;
+
+		throw new RuntimeException(t);
+	}
+
+	@SuppressWarnings("unused")
+	private Article updateOnError(Throwable t)
+	{
+		if(t instanceof ResponseStatusException)
+			throw (ResponseStatusException) t;
+
+		throw new RuntimeException(t);
+	}
+
+	public Article getUnavailable(Long id, Long userId)
+	{
+		var article = new Article();
+		article.setId(id);
+		article.setContent("Unavailable");
+		article.setSubContentList(new ArrayList<SubContent>());
+		article.setTitle("Unavailable");
+		article.setUserId(userId);
+		return article;
+	}
+
+
 	@Autowired
 	private RestTemplate restTemplate;
-	
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private SubContentService subContentService;
-	
 
-	private String articleURL = "http://infopedia-article-service/api/article";
-	private String byIdURL = articleURL + "/{id}";
-	private String byUserIdURL = articleURL + "/by-user-id/{userId}";
-	private String byIdAndUserIdURL = articleURL + "/by-id-and-user-id/{id}/{userId}";
+
+	private static final String ARTICLE_SERVICE_CB = "articleServiceCB";
+	private static final String ARTICLE_URL =
+			"http://infopedia-article-service/api/article";
+	private static final String BY_ID_URL = ARTICLE_URL + "/{id}";
+	private static final String BY_USER_ID_URL = ARTICLE_URL + "/by-user-id/{userId}";
+	private static final String BY_ID_AND_USER_ID_URL =
+			ARTICLE_URL + "/by-id-and-user-id/{id}/{userId}";
 }

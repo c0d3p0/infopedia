@@ -1,0 +1,8 @@
+{
+  "userId": 5,
+  "articleId": 16,
+  "position": 2,
+  "type": "text",
+  "title": "Scripting",
+  "content": "\"Games using Godot can be created with a variety of programming languages including C++, C#, and any other language with GDNative bindings such as Rust, Nim, and D.\nGodot also has its own built-in scripting language, GDScript, a high-level, dynamically typed programming language very similar to Python. Contrary to Python, GDScript features strict typing of variables and is optimized for Godot's scene-based architecture. Godot's developers have stated that many alternative third-party scripting languages such as Lua, Python, and Squirrel were tested before deciding that using a custom language allowed for superior optimization and editor integration. The engine also supports visual coding via its own built-in visual programming language VisualScript.\nGodot includes a script editor with auto indentation, syntax highlighting and code completion. It also features a debugger with the ability to set breakpoints and program stepping.\" by Wikipedia"
+}

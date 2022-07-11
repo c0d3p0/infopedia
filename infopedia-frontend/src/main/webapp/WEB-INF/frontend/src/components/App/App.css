@@ -1,0 +1,23 @@
+.app {
+  min-height: 100%;
+  min-width: 100%;
+  overflow: auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.app .page-content {
+  flex: 1 1 auto;
+  
+  margin-bottom: auto;
+
+  border: 0;
+  border-style: solid;
+  border-right-width: 1px;
+  border-left-width: 1px;
+  border-color: #30363C;
+
+  display: flex;
+  flex-direction: row;
+}

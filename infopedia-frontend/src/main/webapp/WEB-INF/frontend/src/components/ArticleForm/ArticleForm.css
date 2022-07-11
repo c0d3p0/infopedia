@@ -1,0 +1,60 @@
+.article-form {
+  width: 100%;
+
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: 6rem;
+  margin-right: 6rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.article-form h1 {
+  font-size: 1.5em;
+  text-align: left;
+  margin: 0;
+}
+
+.article-form hr {
+  height: 1px;
+  
+  margin-top: 0.4rem;
+  margin-bottom: 0.8rem;
+
+  margin-left: 0;
+  margin-right: 0;
+  
+  border: 0;
+  background-color: #F8FCFF80;
+}
+
+.article-form form {
+  width: 30rem;
+  margin-top: 1rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.article-form form label {
+  font-size: 0.8em;
+  margin-bottom: 0.5rem;
+}
+
+.article-form form input,
+.article-form form textarea {
+  margin-bottom: 1rem;
+}
+
+.article-form form textarea {
+  height: 20rem;
+  resize: none;
+}
+
+.article-form form button {
+  font-size: 1em;
+  margin-top: 1rem;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}

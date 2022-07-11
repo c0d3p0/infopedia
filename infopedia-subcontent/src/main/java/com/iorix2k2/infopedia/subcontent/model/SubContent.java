@@ -111,7 +111,7 @@ public class SubContent
 	private String title;
 	
 	@NotBlank(message = "Sub content 'content' can't be empty!")
-	@Column(columnDefinition="LONG VARCHAR")
+	@Column(columnDefinition="CLOB")
 	private String content;
 }
 	

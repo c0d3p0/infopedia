@@ -1,0 +1,101 @@
+.article-page {
+  width: 100%;
+
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: 6rem;
+  margin-right: 6rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.article-page h1 {
+  text-align: left;
+
+  margin: 0;
+}
+
+.article-page hr {
+  height: 1px;
+  
+  margin-top: 0.4rem;
+  margin-bottom: 0.8rem;
+
+  margin-left: 0;
+  margin-right: 0;
+  
+  border: 0;
+  background-color: #F8FCFF80;
+}
+
+.article-page div {
+  display: flex;
+  flex-direction: column;
+}
+
+.article-page h2 {
+  text-align: left;
+
+  margin-bottom: 0;
+}
+
+.article-page .default-content,
+.article-page .link-content {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.article-page .image-content {
+  margin-top: 1rem;
+  
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.article-page .default-content h3 {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.article-page .default-content h3:first-child {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.article-page .default-content h3:not(:first-child) {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.article-page .default-content h3:last-child {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.article-page .default-content p {
+  text-align: justify;
+}
+
+.article-page .default-content p:not(:last-child) {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.article-page .default-content p:last-child {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.article-page .image-content img {
+  max-height: 19rem;
+  margin-bottom: 1rem;
+}
+
+.article-page .image-content img:not(:last-child) {
+  margin-right: 1rem;
+}

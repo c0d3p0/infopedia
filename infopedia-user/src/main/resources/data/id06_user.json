@@ -1,0 +1,12 @@
+{
+  "fullName": "Gabriel Ferreira",
+  "age": 38,
+  "gender": "male",
+  "country": "Brazil",
+  "email": "gabriel.ferreira@fake.com",
+  "username": "Gadmin",
+  "password": "abcd4321",
+  "token": "t-g",
+  "tokenActiveTime": 0,
+  "systemAdmin": true
+}

@@ -1,43 +1,58 @@
 package com.iorix2k2.infopedia.subcontent.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+
+import com.iorix2k2.infopedia.subcontent.error.RestAuthenticationEntryPoint;
 
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
+public class WebSecurityConfiguration
 {
-	@Override
-	protected void configure(HttpSecurity http) throws Exception
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
 	{
 		http.csrf().disable().sessionManagement().
-		sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().
-		authorizeRequests().
+				sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().
+				exceptionHandling().
+				authenticationEntryPoint(restAuthenticationEntryPoint).and().
+				authorizeRequests().
 		
 		
-		antMatchers(HttpMethod.POST, subContentURL).permitAll().
-		
-		antMatchers(HttpMethod.GET, subContentURL, byArticleIdURL, byIdURL)
-				.permitAll().
+				antMatchers(HttpMethod.POST, SUB_CONTENT_URL).permitAll().
 				
-		antMatchers(HttpMethod.PATCH, byIdURL)
-				.permitAll().
+				antMatchers(HttpMethod.GET, SUB_CONTENT_URL,
+						BY_ARTICLE_ID_URL, BY_CONTENT_URL, BY_ID_URL).permitAll().
+						
+				antMatchers(HttpMethod.PATCH, BY_ID_URL)
+						.permitAll().
+						
+				antMatchers(HttpMethod.DELETE, BY_ID_URL,
+						BY_ARTICLE_ID_URL, BY_USER_ID_URL).permitAll().
 				
-		antMatchers(HttpMethod.DELETE, byIdURL, byArticleIdURL,
-				byUserIdURL).permitAll().
-		
-		
-		anyRequest().denyAll();
+				
+				anyRequest().denyAll();
+
+		return http.build();
 	}
+
 	
-	
-	private String subContentURL = "/sub-content";
-	private String byArticleIdURL = "/sub-content/by-article-id/{articleId}";
-	private String byIdURL = "/sub-content/{id}";
-	private String byUserIdURL = "/sub-content/by-user-id/{userId}";
+	@Autowired
+	private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
+
+	private static final String SUB_CONTENT_URL = "/sub-content";
+	private static final String BY_ARTICLE_ID_URL =
+			"/sub-content/by-article-id/{articleId}";
+	private static final String BY_CONTENT_URL =
+			"/sub-content/by-content-with/{content}";
+	private static final String BY_ID_URL = "/sub-content/{id}";
+	private static final String BY_USER_ID_URL = "/sub-content/by-user-id/{userId}";
 }

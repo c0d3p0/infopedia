@@ -1,0 +1,8 @@
+{
+  "userId": 5,
+  "articleId": 16,
+  "position": 1,
+  "type": "text",
+  "title": "Overview",
+  "content": "\"Godot aims to offer a fully integrated game development environment. It allows developers to create a game from scratch, needing no other tools beyond those used for content creation (art assets, music, etc). The engine's architecture is built around the concept of a tree of nested \"scenes\". All game resources, including scripts and graphical assets, are saved as part of the computer's file system (rather than in a database). This storage solution is intended to facilitate collaboration between game development teams using software version control systems.\nThe engine supports deployment to multiple platforms and allows specification of texture compression and resolution settings for each platform. Currently, supported platforms include Linux, macOS, Windows, BSD, Android, iOS, BlackBerry 10, HTML5, and WebAssembly.There is also Windows Runtime (WinRT) and Universal Windows Platform (UWP) support.\" by Wikipedia"
+}

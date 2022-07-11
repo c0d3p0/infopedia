@@ -3,8 +3,8 @@ package com.iorix2k2.infopedia.article.error;
 
 public class InvalidDataException extends RuntimeException
 {
-	public InvalidDataException(InvalidDataExceptionType invalidDataExceptionType,
-				String message)
+	public InvalidDataException(
+			InvalidDataExceptionType invalidDataExceptionType, String message)
 	{
 		super(message);
 		this.invalidDataExceptionType = invalidDataExceptionType; 

@@ -1,0 +1,48 @@
+.user-articles {
+  width: 100%;
+  
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  margin-left: 8rem;
+  margin-right: 8rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.user-articles h1 {
+  font-size: 1.5em;
+
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.user-articles .list-item p {
+  font-size: 0.8em;
+}
+
+.user-articles .list-item div {
+  display: flex;
+  flex-direction: row;
+}
+
+.user-articles .list-item h2 {
+  font-size: 1.25em;
+  margin-right: auto;
+}
+
+.user-articles .list-item button {
+  font-size: 2em;
+  height: 3rem;
+  width: 3rem;
+}
+
+.user-articles .list-item button:not(:last-child) {
+  margin-right: 1rem;
+}
+
+.user-articles .list-item span {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+

@@ -1,0 +1,5 @@
+{
+  "userId": 5,
+  "title": "Quantum Computation Language",
+  "content": "\"Quantum Computation Language (QCL) is one of the first implemented quantum programming languages. The most important feature of QCL is the support for user-defined operators and functions. Its syntax resembles the syntax of the C programming language and its classical data types are similar to primitive data types in C. One can combine classical code and quantum code in the same program.\n\tThe QCL standard library provides standard quantum operators used in quantum algorithms such as: Controlled-not with many target qubits, Hadamard operation on many qubits, Phase and controlled phase, quantum algorithms for addition, multiplication and exponentiation (all modulus n), the quantum fourier transform.\" by Wikipedia."
+}

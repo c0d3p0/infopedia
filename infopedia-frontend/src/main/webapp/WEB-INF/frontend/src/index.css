@@ -1,0 +1,250 @@
+.textfield-light, .textarea-light {
+  background-color: #F8FCFF30;
+  overflow-y: scroll;
+
+  color: #F8FCFF;
+  font-family: "Montserrat";
+  font-weight: bold;
+  font-size: 0.8em;
+  
+  padding: 4px 8px;
+
+  border: 1px;
+  border-radius: 4px;
+  border-style: solid;
+  border-color: #F8FCFF30;
+  outline: none;
+}
+
+.textfield-light:focus, .textarea-light:focus {
+  color: #20262C;
+  background-color: #F8FCFFC0;
+  border-color: #F8FCFFC0;
+}
+
+.button-light, .combobox-light {
+  appearance: none;
+  background-color: transparent;
+  cursor: pointer;
+  
+  color: #F8FCFFC0;
+  font-family: "Montserrat";
+  font-weight: bold;
+  font-size: 0.8em;
+  text-align: center;
+  
+  padding: 4px 8px;
+
+  border: 1px;
+  border-radius: 4px;
+  border-style: solid;
+  border-color: #F8FCFFC0;
+  outline: none;
+}
+
+.button-light:hover, .combobox-light:hover {
+  color: #20262C;
+  background-color: #F8FCFFC0;
+}
+
+.combobox-light option {
+  appearance: none;
+  color: #F8FCFF;
+  background-color: #20262C;
+}
+
+.checkbox-light {
+  appearance: none;
+  background-color: #F8FCFF30;
+  cursor: pointer;
+  
+  color: #20262C;
+  line-height: 1rem;
+  font-size: 0.6em;
+  text-align: center;
+
+  height: 1.2rem;
+  width: 2.4rem;
+
+  border: 1px;
+  border-radius: 4px;
+  border-style: solid;
+  border-color: #F8FCFFC0;
+  outline: none;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.checkbox-light input {
+  appearance: none;
+  background-color: #F8FCFF;
+
+  height: 0.8rem;
+  width: 0.8rem;
+
+  margin-top: auto !important;
+  margin-bottom: auto !important;
+
+  border: 1px;
+  border-radius: 2px;
+  border-style: solid;
+  border-color: #F8FCFFC0;
+  outline: none;
+}
+
+.checkbox-light input:checked {
+  margin-left: auto;
+}
+
+.link, .link:active, .link:visited {
+  color: #F8FCFF;
+  font-size: 1em;
+}
+
+.link:hover {
+  color: #80868C;
+  font-size: 1em;
+}
+
+.box-light {
+  padding: 1rem;
+
+  border: 1px;
+  border-radius: 6px;
+  border-style: solid;
+  border-color: #F8FCFFC0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.box-dark {
+  background-color: #20262C;
+
+  padding: 1rem;
+
+  border: 1px;
+  border-radius: 6px;
+  border-style: solid;
+  border-color: #30363C;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item {
+  appearance: none;
+  background-color: transparent;
+  cursor: pointer;
+  
+  color: #F8FCFFC0;
+  font-family: "Montserrat";
+  font-weight: bold;
+  font-size: 1em;
+
+  border: 0;
+  outline: none;
+}
+
+.menu-item:hover {
+  background-color: #40464C;
+}
+
+.list-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.list-item hr {
+  height: 1px;
+  
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0.4rem;
+  margin-bottom: 0.8rem;
+  
+  border: 0;
+  background-color: #F8FCFF80;
+}
+
+.list-item h2 {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.list-item p {
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.list-item > button {
+  appearance: none;
+  color: #F8FCFF;
+  cursor: pointer;
+  font-family: "Montserrat";
+
+  padding: 0;
+
+  border: 0;
+  outline: none;
+  background-color: transparent;
+}
+
+.list-item > button:hover {
+  background-color: #40464C;
+}
+
+*::placeholder {
+  color: #F8FCFF80;
+}
+
+*::-webkit-scrollbar {
+  background-color: #20262C;
+
+  width: 0.7rem;
+  height: 0.7rem;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #30363C;
+  outline: 0;
+}
+
+*::-webkit-scrollbar-track {
+  background-color: #20262C;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  color: #F8FCFF;
+  background-color: #283038;
+
+  height: 100vh;
+  width: 100vw;
+  min-width: 60rem;
+  overflow: auto;
+
+  margin: 0;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  display: flex;
+  flex-direction: column;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

@@ -1,0 +1,17 @@
+.user-settings-side-menu {
+  min-width: 12rem;
+  height: 100%;
+  background-color: #20262C;
+
+  border: 0;
+  border-style: solid;
+  border-right-width: 1px;
+  border-color: #30363C;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.user-settings-side-menu button {
+  height: 3rem;
+}

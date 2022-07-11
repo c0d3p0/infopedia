@@ -1,0 +1,23 @@
+.header {
+  background-color: #20262C;
+  
+  min-height: 4rem;
+  max-height: 4rem;
+
+  border: 0;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #30363C;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.header img {
+  max-height: 2.5rem;
+
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 1rem;
+  margin-right: 2rem;
+}

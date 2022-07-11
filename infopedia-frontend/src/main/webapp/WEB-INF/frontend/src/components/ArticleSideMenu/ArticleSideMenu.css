@@ -1,0 +1,31 @@
+.article-side-menu {
+  height: 100%;
+  min-width: 12rem;
+
+  background-color: #20262C;
+  text-align: center;
+  
+  border: 0;
+  border-style: solid;
+  border-right-width: 1px;
+  border-color: #30363C;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.article-side-menu div {
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.article-side-menu h3 {
+  margin-top: 0;
+}
+
+.article-side-menu .articles-link {
+  margin-top: 4rem;
+}

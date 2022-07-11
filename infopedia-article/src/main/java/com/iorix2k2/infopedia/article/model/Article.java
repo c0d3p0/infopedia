@@ -79,7 +79,7 @@ public class Article
 	@NotBlank(message = "Article 'title' can't be empty!")
 	private String title;
 	
-	@Column(columnDefinition="LONG VARCHAR")
+	@Column(columnDefinition="CLOB")
 	@NotBlank(message = "Article 'content' can't be empty!")
 	private String content;
 }
